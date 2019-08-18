@@ -17,7 +17,11 @@
         // Handle messages sent by the server.
         socket.onmessage = function (event) {
             var obj = jQuery.parseJSON(event.data);
-
+            if (obj.hasOwnProperty('over')) {
+                if (obj.over === true) {
+                    $('#form').submit();
+                }
+            }
             $('span#tasks_attempted').html(obj.tasks_attempted);
             $('span#tasks_correct').html(obj.tasks_correct);
             $('span#correct_answer').html(obj.correct_answer);

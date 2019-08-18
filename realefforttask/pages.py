@@ -19,6 +19,9 @@ class WorkPage(Page):
     timer_text = 'Time left to complete this round:'
     timeout_seconds = Constants.task_time
 
+    def is_displayed(self) -> bool:
+        return self.player.tasks.filter(answer__isnull=False).count() < 1
+
     def vars_for_template(self):
         return {"task": self.player.get_task()}
 

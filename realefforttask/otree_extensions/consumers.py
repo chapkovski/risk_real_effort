@@ -11,10 +11,10 @@ import json
 
 class TaskTracker(JsonWebsocketConsumer):
     url_pattern = (
-        r'^/tasktracker' +
-        '/participant/(?P<participant_code>[a-zA-Z0-9_-]+)' +
-        '/player/(?P<player_id>[0-9]+)' +
-        '$')
+            r'^/tasktracker' +
+            '/participant/(?P<participant_code>[a-zA-Z0-9_-]+)' +
+            '/player/(?P<player_id>[0-9]+)' +
+            '$')
 
     def clean_kwargs(self, kwargs):
         self.player_id = self.kwargs['player_id']
@@ -26,6 +26,11 @@ class TaskTracker(JsonWebsocketConsumer):
 
     def receive(self, text=None, bytes=None, **kwargs):
         self.clean_kwargs(kwargs)
+        nsolvedtasks = self.player.tasks.filter(answer__isnull=False).count()
+
+        if nsolvedtasks > 0:
+            self.send({'over': True})
+            return
         response = dict()
         answer = text.get('answer')
         if answer:
@@ -34,9 +39,9 @@ class TaskTracker(JsonWebsocketConsumer):
             if task:
                 task.answer = answer
                 task.save()
-        response.update(self.player.get_task())
+        response.update(self.player.get_task() )
+        response.update({'over': True})
         self.send(response)
 
     def connect(self, message, **kwargs):
         self.clean_kwargs(kwargs)
-
