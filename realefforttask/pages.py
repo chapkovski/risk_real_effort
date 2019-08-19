@@ -7,6 +7,7 @@ from .models import Constants
 class ChoosingDiff(Page):
     form_model = 'player'
     form_fields = ['difficulty']
+    timeout_submission = {'difficulty': 5}
 
     def vars_for_template(self):
         frm = self.get_form()

@@ -11,6 +11,9 @@ SESSION_CONFIG_DEFAULTS = {
     'doc': "",
 }
 
+ROOMS = [{'display_name': 'LESH',
+          'name': 'lesh'}]
+
 SESSION_CONFIGS = [
     {
         'name': 'realefforttask',
@@ -28,7 +31,6 @@ LANGUAGE_CODE = 'en'
 REAL_WORLD_CURRENCY_CODE = 'USD'
 USE_POINTS = True
 
-ROOMS = []
 
 ADMIN_USERNAME = 'admin'
 # for security, best to set admin password in an environment variable
